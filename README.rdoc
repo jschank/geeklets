@@ -1,6 +1,6 @@
 = geeklets
 
-Description goes here.
+Geeklets is a collection of scripts for use with GeekTool.
 
 == Note on Patches/Pull Requests
  
