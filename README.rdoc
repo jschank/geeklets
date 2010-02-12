@@ -1,6 +1,46 @@
 = geeklets
 
 Geeklets is a collection of scripts for use with GeekTool.
+Here is the breakdown of the scripts
+
+== Note about these scripts.
+
+At the moment - they are all focused on my particular needs, so
+they are currently hardcoded for my area of Virginia, USA. As this
+project develops I will be trying to find a way to refactor that depency
+away, and allow individual users to customize for their needs.
+
+Just be aware, that right now, unless you live in the Washington Metro area,
+some of these scripts won't be useful for you.
+
+Run them with a -h parameter for details.
+
+== get_weather_icon
+
+Gets the current weather icon from yahoo, and saves it to the tmp directory.
+
+== next_months_calendar
+
+Runs the unix "cal" command for whatever the next month from now is.
+
+== OPM_alerts
+
+Gets the Office of Personnel Management alert for the current day.
+This if for things like Federal Government closings and delays due to weather.
+
+== trash_usage
+
+A wrapper for the unix "du" command to display the amount of space taken up by
+the traash on an OS X mac.
+
+== VRE_alerts
+
+Shows the alerts for today for the Virginia Rail Express
+
+== WMATA_alerts
+
+Shows the alerts and delays for the Washington Metro Area Transit Authority,
+the "Metro" subway and trains.
 
 == Note on Patches/Pull Requests
  

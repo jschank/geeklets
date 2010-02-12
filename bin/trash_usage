@@ -1,0 +1,1 @@
+du -sh ~/.Trash/ | awk '{print "Trash is using "$1}'
