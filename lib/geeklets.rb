@@ -25,7 +25,13 @@ class Geeklets
   end
   
   def self.run_geeklet(geeklet, params)
-    puts "Ok, I'll run the geeklet #{geeklet}"
+    puts "Ok, I'll run the geeklet #{geeklet}."
+
+    require "#{geeklet}\\#{geeklet}"
+    
+    obj = eval("#{geeklet}.new")
+    obj.run(params)
+    
   end
 
   def self.run(params)
@@ -37,7 +43,7 @@ class Geeklets
       if script_inventory.include?(geeklet)
         run_geeklet(geeklet, params)
       else
-        puts "I do not know how to run that geeklet"
+        puts "I do not know how to run the #{geeklet} geeklet."
         show_known_scripts
       end
     end

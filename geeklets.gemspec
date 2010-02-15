@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John F. Schank III"]
-  s.date = %q{2010-02-13}
+  s.date = %q{2010-02-14}
   s.default_executable = %q{geeklets}
   s.description = %q{A collection of useful scripts for use with GeekTool}
   s.email = %q{jschank@mac.com}
@@ -25,14 +25,14 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "bin/geeklets",
-     "lib/OPM_alerts/OPM_alerts",
-     "lib/VRE_alerts/VRE_alerts",
-     "lib/WMATA_alerts/WMATA_alerts",
+     "lib/Get_Weather_Icon/Get_Weather_Icon",
+     "lib/Next_Months_Calendar/Next_Months_Calendar",
+     "lib/OPM_Alerts/OPM_Alerts",
+     "lib/Trash_Usage/Trash_Usage",
+     "lib/VRE_Alerts/VRE_Alerts",
+     "lib/WMATA_Alerts/WMATA_Alerts",
+     "lib/Weather/Weather",
      "lib/geeklets.rb",
-     "lib/get_weather_icon/get_weather_icon",
-     "lib/next_months_calendar/next_months_calendar",
-     "lib/trash_usage/trash_usage",
-     "lib/weather/weather",
      "spec/geeklets_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
