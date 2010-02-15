@@ -14,28 +14,31 @@ require 'fileutils'
 require 'cgi'
 require 'net/http'
 
+DATA_URL = "http://apple.accuweather.com/adcbin/apple/Apple_Weather_Data.asp?zipcode"
+LOOKUP_URL = "http://apple.accuweather.com/adcbin/apple/Apple_find_city.asp?location"
+TEMP_FILE_DIR = "/tmp"
+TEMP_FILE_PREFIX = "acweather"
+TEMP_FILE_SUFFIX = "tmp"
+LOCK_FILE_SUFFIX = "lck"
+ICON_FILE_SUFFIX = "gif"
+SHARED_ICON = "#{TEMP_FILE_DIR}/acweather-icon.#{ICON_FILE_SUFFIX}"
+
 class Weather
 
-  @DATA_URL = "http://apple.accuweather.com/adcbin/apple/Apple_Weather_Data.asp?zipcode"
-  @LOOKUP_URL = "http://apple.accuweather.com/adcbin/apple/Apple_find_city.asp?location"
-  @TEMP_FILE_DIR = "/tmp"
-  @TEMP_FILE_PREFIX = "acweather"
-  @TEMP_FILE_SUFFIX = "tmp"
-  @LOCK_FILE_SUFFIX = "lck"
-  @ICON_FILE_SUFFIX = "gif"
-  @SHARED_ICON = "#{@TEMP_FILE_DIR}/acweather-icon.#{@ICON_FILE_SUFFIX}"
-  @ICON_LOCATION = "."
+  def intialize
+    @icon_location = "."    
+  end
 
   def temp_file_name(location)
-    "#{@TEMP_FILE_DIR}/#{@TEMP_FILE_PREFIX}-#{CGI.escape(location)}.#{@TEMP_FILE_SUFFIX}"
+    "#{TEMP_FILE_DIR}/#{TEMP_FILE_PREFIX}-#{CGI.escape(location)}.#{TEMP_FILE_SUFFIX}"
   end
 
   def lock_file_name(location)
-    "#{@TEMP_FILE_DIR}/#{@TEMP_FILE_PREFIX}-#{CGI.escape(location)}.#{@LOCK_FILE_SUFFIX}"
+    "#{TEMP_FILE_DIR}/#{TEMP_FILE_PREFIX}-#{CGI.escape(location)}.#{LOCK_FILE_SUFFIX}"
   end
 
   def temp_icon_name(location)
-    "#{@TEMP_FILE_DIR}/acweather-icon-#{CGI.escape(opts[:zipcode])}.#{@ICON_FILE_SUFFIX}"
+    "#{TEMP_FILE_DIR}/acweather-icon-#{CGI.escape(opts[:zipcode])}.#{ICON_FILE_SUFFIX}"
   end
 
   def titleize(text)
@@ -75,7 +78,7 @@ class Weather
       # Create the lock file
       FileUtils.touch(lock_file_name(location))
     
-      `curl --silent -m 30 "#{@DATA_URL}=#{CGI.escape(location)}" > #{temp_file_name(location)}`
+      `curl --silent -m 30 "#{DATA_URL}=#{CGI.escape(location)}" > #{temp_file_name(location)}`
       if File.size(temp_file_name(location)) == 0
         FileUtils.rm(temp_file_name(location))
       end
@@ -87,7 +90,7 @@ class Weather
 
   def lookup_postal(name)
     puts "Location = Postal code/Zipcode"
-    xml_data = Net::HTTP.get_response(URI.parse("#{@LOOKUP_URL}=#{CGI.escape(name)}")).body
+    xml_data = Net::HTTP.get_response(URI.parse("#{LOOKUP_URL}=#{CGI.escape(name)}")).body
   
     # extract event information
     doc = REXML::Document.new(xml_data)
@@ -131,7 +134,7 @@ class Weather
     weather["low_temperature"] = (doc.elements.collect('adc_Database/Forecast/day/Low_Temperature') { |el| el.text.strip })[0]
     weather["icon"] = icon
     if icon.size != 0
-      weather["icon_file"] = "#{@ICON_LOCATION}/#{icon}.#{@ICON_FILE_SUFFIX}"
+      weather["icon_file"] = "#{@icon_location}/#{icon}.#{ICON_FILE_SUFFIX}"
     end
   
     weather
@@ -168,20 +171,20 @@ class Weather
     end
 
     if opts[:iconlocation]
-      @ICON_LOCATION = opts[:iconlocation]
+      @icon_location = opts[:iconlocation]
     end  
 
     pull_weather(opts[:zipcode], 1800)
     weather = parse_weather(opts[:zipcode])
 
     if weather['icon_file'].nil?
-      FileUtils.rm(@SHARED_ICON) if File.file?(@SHARED_ICON)
+      FileUtils.rm(SHARED_ICON) if File.file?(SHARED_ICON)
     else
       begin
-        FileUtils.cp(weather['icon_file'], @SHARED_ICON)
-        FileUtils.cp(weather['icon_file'], "/tmp/acweather-icon-#{CGI.escape(opts[:zipcode])}.#{@ICON_FILE_SUFFIX}")
+        FileUtils.cp(weather['icon_file'], SHARED_ICON)
+        FileUtils.cp(weather['icon_file'], "/tmp/acweather-icon-#{CGI.escape(opts[:zipcode])}.#{ICON_FILE_SUFFIX}")
       rescue
-        warn "Unable to read from icon file '#{weather['icon_file']}' in directory '#{@ICON_LOCATION}'.  Use the --iconlocation argument to provide the appropriate directory."
+        warn "Unable to read from icon file '#{weather['icon_file']}' in directory '#{@icon_location}'.  Use the --iconlocation argument to provide the appropriate directory."
       end  
     end
 
