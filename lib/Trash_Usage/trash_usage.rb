@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 class Trash_Usage
 
   def run(params)

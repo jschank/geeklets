@@ -25,13 +25,9 @@ class Geeklets
   end
   
   def self.run_geeklet(geeklet, params)
-    puts "Ok, I'll run the geeklet #{geeklet}."
-
-    require "#{geeklet}\\#{geeklet}"
-    
+    require "#{geeklet}/#{geeklet.downcase}"
     obj = eval("#{geeklet}.new")
     obj.run(params)
-    
   end
 
   def self.run(params)

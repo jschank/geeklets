@@ -1,7 +1,9 @@
-#!/usr/bin/env ruby -wKU
-require 'Date'
+class Next_Months_Calendar
 
-today = Date.today
-nextmonth = today >> 1
-exec("cal #{nextmonth.month} #{nextmonth.year}")
+  def run(params)
+    today = Date.today
+    nextmonth = today >> 1
+    system("cal","#{nextmonth.month}","#{nextmonth.year}")
+  end
 
+end

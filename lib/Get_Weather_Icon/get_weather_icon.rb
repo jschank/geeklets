@@ -1,15 +1,19 @@
-#!/usr/bin/env ruby
-
 require 'rubygems'
 require 'mechanize'
 require 'rio'
 
-@URL = "http://weather.yahoo.com/forecast/USVA0262.html"
+class Get_Weather_Icon
 
-agent = WWW::Mechanize.new
-agent.get(@URL)
-icon = agent.page.at(".forecast-icon")
-style = icon.attributes["style"].value
-icon_url = style.split("'")[1]
+  @URL = "http://weather.yahoo.com/forecast/USVA0262.html"
 
-rio(icon_url) > rio("/tmp/weather-icon.png")
+  def run(params)
+    agent = WWW::Mechanize.new
+    agent.get(@URL)
+    icon = agent.page.at(".forecast-icon")
+    style = icon.attributes["style"].value
+    icon_url = style.split("'")[1]
+
+    rio(icon_url) > rio("/tmp/weather-icon.png")
+  end
+
+end
