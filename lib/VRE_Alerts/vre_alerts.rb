@@ -8,10 +8,6 @@ TRAIN_LINES = {"fbg_delay" => :fredericksburg, "mss_delay" => :manassas}
 
 class VRE_Alerts
 
-  def wrap(s, width=78)
-    s.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
-  end
-
   def die
     puts <<-EOS
     vre-alert
@@ -84,7 +80,7 @@ class VRE_Alerts
     puts "  No delays" and return if trains.empty?
     trains.each do |train|
       puts "  #{train[:line].to_s.capitalize} line #{train[:train]}"
-      wrap(train[:description], width).each{|str| puts "    #{str}"}
+      Utility.wrap_text(train[:description], width, 3, :all)
     end
   end
 
@@ -114,7 +110,7 @@ class VRE_Alerts
     # alert_date = Date.civil(2010, 1, 13)
     # @rail_lines = :fredericksburg
 
-    agent = WWW::Mechanize.new
+    agent = Mechanize.new
     agent.get(FEED_URL)
     notices = agent.page.search(".format").map{ |notice| parse_notice(notice) }
 

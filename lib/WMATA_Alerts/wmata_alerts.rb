@@ -15,10 +15,6 @@ FEED_URL = "http://www.wmata.com/rider_tools/metro_service_status/feeds/rail.xml
 
 class WMATA_Alerts
 
-  def wrap(s, width=78)
-    s.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
-  end
-
   def die
     puts <<-EOS
   metro-feed
@@ -84,14 +80,10 @@ class WMATA_Alerts
           message = message.gsub(r[0], r[1])
         end
         subject, *body = message.split(".")
-
-        puts wrap(subject+".", @width)
+        
+        puts Utility.wrap_text(subject+"...", @width)
         body.each do |sentence|
-          chunks = wrap(sentence, @width).split("\n")
-          chunks[-1] = chunks[-1] + "."
-          chunks.each do |chunk|
-            puts "  " + chunk.strip
-          end
+          puts Utility.wrap_text(sentence+".", @width, 3, :all)
         end  
 
         puts

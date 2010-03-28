@@ -1,0 +1,18 @@
+TODO: each script should have its own version info
+TODO: create configuration mechanism, so scripts can get their properties.
+TODO: configuration can be overridden by command line parameters
+TODO: configuration values can be viewed and edited in a GUI (use FX Ruby)
+TODO: There needs to be a logging mechanism so that script errors can be reported other than on STDOUT - which would interfere with geektool outputs
+TODO: There needs to be a script to dump logging messages - to be used by geektool
+TODO: the configuration system should maybe display logging messages.
+TODO: the configuration system should persist its properties through PSTore (perhaps using YAML)
+TODO: the configuration system should store its persistent data and logs in a dotfile.
+TODO: the persistent data store should be overrideable with an environment variable.
+TODO: each script should be runnable from the command line: geeklets <script> args
+TODO: each script should allow for a help parameter to report the command line parms
+TODO: when reporting the commmand line parms - it should show any currently defaulted values from the configuration store.
+TODO: any script, when retrieving a configuation property, can specify a default value to use. The default value is used if there is no value in the store, and there is no parameter on the command line to override the value.
+TODO: any script, when retrieving a configuration property can opt to allow nil to be the default value.
+TODO: if a script gets a nil for a configuration property, it can abort with an error message.
+TODO: if a script gets a nil for a configuration property, it (could pause, and invoke the set up GUI) then proceed. This should be suppressable.
+TODO: the valid parameters should be generated from the configuration properties. (they should be specified once)

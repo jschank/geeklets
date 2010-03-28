@@ -9,7 +9,6 @@
 
 require 'rubygems'
 require 'rexml/document'
-require 'trollop'
 require 'fileutils'
 require 'cgi'
 require 'net/http'

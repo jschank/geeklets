@@ -7,10 +7,6 @@ URL = "http://www.opm.gov/status/index.aspx"
 
 class OPM_Alerts
 
-  def wrap(s, width=78)
-    s.strip.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
-  end
-
   def die
     puts <<-EOS
   opm-status
@@ -57,9 +53,9 @@ EOS
     status = "Not found" if status.length == 0
 
     # display results
-    puts "#{date_str} - #{title}"
+    puts Utility.wrap_text("#{date_str} - #{title}", width, date_str.length + 3, :outdent)
     puts "-" * width
-    puts wrap(status, width)
+    puts Utility.wrap_text(status, width)
   end
 
 end

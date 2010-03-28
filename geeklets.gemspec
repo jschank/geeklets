@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geeklets}
-  s.version = "0.0.1"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John F. Schank III"]
-  s.date = %q{2010-02-15}
+  s.date = %q{2010-03-28}
   s.default_executable = %q{geeklets}
   s.description = %q{A collection of useful scripts for use with GeekTool}
   s.email = %q{jschank@mac.com}
@@ -33,19 +33,22 @@ Gem::Specification.new do |s|
      "lib/WMATA_Alerts/wmata_alerts.rb",
      "lib/Weather/weather.rb",
      "lib/geeklets.rb",
+     "lib/utility.rb",
      "spec/geeklets_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
+     "spec/utility_spec.rb",
      "vendor/trollop.rb"
   ]
   s.homepage = %q{http://github.com/jschank/geeklets}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Scripts for GeekTool}
   s.test_files = [
     "spec/geeklets_spec.rb",
-     "spec/spec_helper.rb"
+     "spec/spec_helper.rb",
+     "spec/utility_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
