@@ -4,11 +4,9 @@ require 'rio'
 
 class Get_Weather_Icon
 
-  @URL = "http://weather.yahoo.com/forecast/USVA0262.html"
-
   def run(params)
-    agent = WWW::Mechanize.new
-    agent.get(@URL)
+    agent = Mechanize.new
+    agent.get("http://weather.yahoo.com/forecast/USVA0262.html")
     icon = agent.page.at(".forecast-icon")
     style = icon.attributes["style"].value
     icon_url = style.split("'")[1]

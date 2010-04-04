@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geeklets}
-  s.version = "0.0.3"
+  s.version = "0.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John F. Schank III"]
-  s.date = %q{2010-03-28}
+  s.date = %q{2010-04-04}
   s.default_executable = %q{geeklets}
   s.description = %q{A collection of useful scripts for use with GeekTool}
   s.email = %q{jschank@mac.com}

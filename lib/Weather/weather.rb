@@ -13,16 +13,15 @@ require 'fileutils'
 require 'cgi'
 require 'net/http'
 
-DATA_URL = "http://apple.accuweather.com/adcbin/apple/Apple_Weather_Data.asp?zipcode"
-LOOKUP_URL = "http://apple.accuweather.com/adcbin/apple/Apple_find_city.asp?location"
-TEMP_FILE_DIR = "/tmp"
-TEMP_FILE_PREFIX = "acweather"
-TEMP_FILE_SUFFIX = "tmp"
-LOCK_FILE_SUFFIX = "lck"
-ICON_FILE_SUFFIX = "gif"
-SHARED_ICON = "#{TEMP_FILE_DIR}/acweather-icon.#{ICON_FILE_SUFFIX}"
-
 class Weather
+  DATA_URL = "http://apple.accuweather.com/adcbin/apple/Apple_Weather_Data.asp?zipcode"
+  LOOKUP_URL = "http://apple.accuweather.com/adcbin/apple/Apple_find_city.asp?location"
+  TEMP_FILE_DIR = "/tmp"
+  TEMP_FILE_PREFIX = "acweather"
+  TEMP_FILE_SUFFIX = "tmp"
+  LOCK_FILE_SUFFIX = "lck"
+  ICON_FILE_SUFFIX = "gif"
+  SHARED_ICON = "#{TEMP_FILE_DIR}/acweather-icon.#{ICON_FILE_SUFFIX}"
 
   def intialize
     @icon_location = "."    

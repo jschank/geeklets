@@ -3,6 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'pathname'
 require 'utility'
+require 'trollop'
 
 class Geeklets
 
