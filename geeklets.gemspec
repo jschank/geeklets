@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John F. Schank III"]
-  s.date = %q{2010-04-04}
+  s.date = %q{2010-04-07}
   s.default_executable = %q{geeklets}
   s.description = %q{A collection of useful scripts for use with GeekTool}
   s.email = %q{jschank@mac.com}

@@ -80,7 +80,7 @@ class VRE_Alerts
     puts "  No delays" and return if trains.empty?
     trains.each do |train|
       puts "  #{train[:line].to_s.capitalize} line #{train[:train]}"
-      Utility.wrap_text(train[:description], width, 3, :all)
+      puts Utility.wrap_text(train[:description], width, 3, :all)
     end
   end
 
