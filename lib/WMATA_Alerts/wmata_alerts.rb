@@ -5,15 +5,15 @@ require 'open-uri'
 require 'chronic'
 require 'htmlentities'
 
-REPLACEMENTS = 
-[
-  ["p.m.", "pm"], 
-  ["a.m.", "am"]
-]
-
-FEED_URL = "http://www.wmata.com/rider_tools/metro_service_status/feeds/rail.xml"
-
 class WMATA_Alerts
+
+  REPLACEMENTS = 
+  [
+    ["p.m.", "pm"], 
+    ["a.m.", "am"]
+  ]
+
+  FEED_URL = "http://www.wmata.com/rider_tools/metro_service_status/feeds/rail.xml"
 
   def die
     puts <<-EOS

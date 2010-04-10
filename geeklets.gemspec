@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geeklets}
-  s.version = "0.0.4"
+  s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John F. Schank III"]
-  s.date = %q{2010-04-07}
+  s.date = %q{2010-04-10}
   s.default_executable = %q{geeklets}
   s.description = %q{A collection of useful scripts for use with GeekTool}
   s.email = %q{jschank@mac.com}
@@ -57,11 +57,26 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_runtime_dependency(%q<mechanize>, [">= 1.0.0"])
+      s.add_runtime_dependency(%q<rio>, [">= 0.4.2"])
+      s.add_runtime_dependency(%q<nokogiri>, [">= 1.4.1"])
+      s.add_runtime_dependency(%q<chronic>, [">= 0.2.3"])
+      s.add_runtime_dependency(%q<htmlentities>, [">= 4.2.0"])
     else
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
+      s.add_dependency(%q<mechanize>, [">= 1.0.0"])
+      s.add_dependency(%q<rio>, [">= 0.4.2"])
+      s.add_dependency(%q<nokogiri>, [">= 1.4.1"])
+      s.add_dependency(%q<chronic>, [">= 0.2.3"])
+      s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
     end
   else
     s.add_dependency(%q<rspec>, [">= 1.2.9"])
+    s.add_dependency(%q<mechanize>, [">= 1.0.0"])
+    s.add_dependency(%q<rio>, [">= 0.4.2"])
+    s.add_dependency(%q<nokogiri>, [">= 1.4.1"])
+    s.add_dependency(%q<chronic>, [">= 0.2.3"])
+    s.add_dependency(%q<htmlentities>, [">= 4.2.0"])
   end
 end
 

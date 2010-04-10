@@ -6,11 +6,17 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "geeklets"
     gem.summary = %Q{Scripts for GeekTool}
+    gem.executables = "geeklets"
     gem.description = %Q{A collection of useful scripts for use with GeekTool}
     gem.email = "jschank@mac.com"
     gem.homepage = "http://github.com/jschank/geeklets"
     gem.authors = ["John F. Schank III"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency('mechanize', ">= 1.0.0")
+    gem.add_dependency('rio', ">= 0.4.2")
+    gem.add_dependency('nokogiri', ">= 1.4.1")
+    gem.add_dependency('chronic', ">= 0.2.3")
+    gem.add_dependency('htmlentities', ">= 4.2.0")
     gem.files = FileList['lib/**/*', 'bin/*', '[A-Z]*', 'spec/**/*', 'vendor/**/*'].to_a
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

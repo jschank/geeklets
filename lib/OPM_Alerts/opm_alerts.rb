@@ -3,9 +3,8 @@ require 'rubygems'
 require 'open-uri'
 require 'nokogiri'
 
-URL = "http://www.opm.gov/status/index.aspx"
-
 class OPM_Alerts
+  URL = "http://www.opm.gov/status/index.aspx"
 
   def die
     puts <<-EOS
