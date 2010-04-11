@@ -3,10 +3,9 @@ require 'rubygems'
 require 'chronic'
 require 'mechanize'
 
-FEED_URL = "http://www.vre.org/service/daily-download.html"
-TRAIN_LINES = {"fbg_delay" => :fredericksburg, "mss_delay" => :manassas}
-
 class VRE_Alerts
+  FEED_URL = "http://www.vre.org/service/daily-download.html"
+  TRAIN_LINES = {"fbg_delay" => :fredericksburg, "mss_delay" => :manassas}
 
   def die
     puts <<-EOS
