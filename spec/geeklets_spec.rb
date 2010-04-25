@@ -1,15 +1,22 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "Geeklets" do
+describe Geeklets do
   
-  it "should know how to show usage"
+  before { @geeklets = Geeklets.new }
   
-  it "should know how to show the valid scripts"
+  subject { @geeklets }
   
-  it "should know how to obtain the list of valid scripts"
+  it { should respond_to :show_usage }
+  it { should respond_to :show_known_scripts }
+  it { should respond_to :run }
   
-  it "should know how to run an individual script"
-  
-  it "should know how to parse the parameters to determine what script to run"
+  describe :initialize do
+    
+    subject { @geeklets.initialize }
+    
+    
+    
+    
+  end
 
 end

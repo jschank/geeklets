@@ -7,45 +7,49 @@ require 'trollop'
 
 class Geeklets
 
-  def self.show_usage
+  def initialize
+    @geeklet_scripts = {}
+    cwd = File.dirname(__FILE__)
+    children = Pathname.new(cwd).children
+    children.reject! { |child| !child.directory? }
+    children.each do |child_dir|
+      geeklet_name = child_dir.basename.to_s
+      geeklet_file = geeklet_name.downcase
+      begin
+        require "#{geeklet_name}/#{geeklet_file}"
+        @geeklet_scripts[geeklet_name] = eval("#{geeklet_name}.new")
+      rescue
+        puts "Problem loading #{geeklet_name} geeklet."
+        next
+      end
+    end
+  end
+
+  def show_usage
     puts "Usage: geeklets <geeklet-script> [relevant-parameters-for-script]"
     puts 
   end
   
-  def self.show_known_scripts
+  def show_known_scripts
     puts "These are the currently known geeklet scripts:"
     puts
-    script_inventory.each { |script| puts "\t#{script}"}
+    @geeklet_scripts.keys.sort.each { |key| puts "\t#{key}" }
     puts
   end
   
-  def self.script_inventory
-    cwd = File.dirname(__FILE__)
-    children = Pathname.new(cwd).children
-    children.reject! { |child| !child.directory? }
-    children.map! { |child| child.basename.to_s }
-  end
-  
-  def self.run_geeklet(geeklet, params)
-    require "#{geeklet}/#{geeklet.downcase}"
-    obj = eval("#{geeklet}.new")
-    obj.run(params)
-  end
-
-  def self.run(params)
+  def run(params)
     if params.empty?
       show_usage
       show_known_scripts
     else
       geeklet = params.shift
-      if script_inventory.include?(geeklet)
-        run_geeklet(geeklet, params)
+      if @geeklet_scripts.include?(geeklet)
+        @geeklet_scripts[geeklet].run(params) 
       else
         puts "I do not know how to run the #{geeklet} geeklet."
         show_known_scripts
       end
     end
-    
   end
 
 end

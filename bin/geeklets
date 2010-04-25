@@ -4,5 +4,5 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../vendor'
 
 require 'geeklets'
-
-Geeklets.run(ARGV)
+g = Geeklets.new
+g.run(ARGV)
