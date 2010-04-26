@@ -3,11 +3,15 @@ require 'Trash_Usage/trash_usage'
 
 describe Trash_Usage do
 
-  describe :run do
+  before { @script = Trash_Usage.new }
+  
+  subject { @script }
 
-    before { @script = Trash_Usage.new }
-    
-    subject { @script }
+  describe "in general" do
+    it { should be_a_kind_of(Geeklet) }
+  end
+
+  describe :run do
     
     it "should get the trash usage" do
       

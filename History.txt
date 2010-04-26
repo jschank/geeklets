@@ -1,5 +1,6 @@
 === 0.0.7
-
+* added tests for base class.
+* added base class for all Geeklet scripts.
 * added tests for the main geeklet engine
 * added tests for Next_Months_Calendar script
 * added tests for Trash_Usage script
