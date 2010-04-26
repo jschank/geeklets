@@ -1,0 +1,3 @@
+class ConfigurationRequiredError < Exception
+
+end

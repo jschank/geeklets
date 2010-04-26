@@ -1,0 +1,3 @@
+class UnregisteredConfigValueError < Exception
+
+end

@@ -3,33 +3,23 @@ require 'rubygems'
 require 'open-uri'
 require 'nokogiri'
 
-class OPM_Alerts
-  URL = "http://www.opm.gov/status/index.aspx"
+class OPM_Alerts < Geeklet
 
-  def die
-    puts <<-EOS
-  opm-status
+  def initialize
+    super
+    registerConfiguration(:URL, :default => "http://www.opm.gov/status/index.aspx")
+  end
 
-  USAGE:
-
-  \topm-status [wrapping-width]
-
-  Returns U.S. Office of Personnel Management status Alerts.
-
-  [wrapping-width] is an integer to limit the width of the descriptions
-  Defaults to: 40
-
-EOS
-
-    exit
+  def description
+    "Returns U.S. Office of Personnel Management status Alerts."
   end
 
   def run(params)
-    die if params[0] == "-h"
-
+    super
+    
     width = (params[1] and params[1].to_i) || 40
 
-    doc = Nokogiri::HTML(open(URL))
+    doc = Nokogiri::HTML(open(configurableValue(:URL)))
 
     date_str = doc.css('#_ctl0__ctl0_DisplayDateSpan').text.strip
     begin

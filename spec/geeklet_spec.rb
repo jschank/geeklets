@@ -71,4 +71,32 @@ EOS
     
   end
   
+  describe :configurableValue do
+    
+    context "when configurable value not registered" do      
+      it "should throw an exception" do
+        lambda { @geeklet.configurableValue("someUnregisteredKey") }.should raise_exception(UnregisteredConfigValueError)
+      end      
+    end
+    
+    context "when configurable value is registered" do
+      subject { @geeklet.configurableValue("someRegisteredKey") }
+      
+      context "with a default value" do
+        before { @geeklet.registerConfiguration("someRegisteredKey", :default => "some Default Value") }
+        it { should == "some Default Value"} 
+      end
+
+      context "without a default value" do
+        before { @geeklet.registerConfiguration("someRegisteredKey") }
+        it "should indicate that configuration is necessary" do
+          lambda { @geeklet.configurableValue("someRegisteredKey") }.should raise_exception(ConfigurationRequiredError)
+        end
+      end
+      
+      
+    end
+    
+  end
+  
 end

@@ -8,7 +8,6 @@ TODO: the configuration system should maybe display logging messages.
 TODO: the configuration system should persist its properties through PSTore (perhaps using YAML)
 TODO: the configuration system should store its persistent data and logs in a dotfile.
 TODO: the persistent data store should be overrideable with an environment variable.
-TODO: each script should be runnable from the command line: geeklets <script> args
 TODO: each script should allow for a help parameter to report the command line parms
 TODO: when reporting the commmand line parms - it should show any currently defaulted values from the configuration store.
 TODO: any script, when retrieving a configuation property, can specify a default value to use. The default value is used if there is no value in the store, and there is no parameter on the command line to override the value.
