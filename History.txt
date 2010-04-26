@@ -1,7 +1,12 @@
+=== 0.0.7
+
+* added tests for the main geeklet engine
+* added tests for Next_Months_Calendar script
+* added tests for Trash_Usage script
+
 === 0.0.6 2010-04-10
 
 * updated the dependencies in the gemspec
-
 
 === 0.0.2 2010-02-07
 

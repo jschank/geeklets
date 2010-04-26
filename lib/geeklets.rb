@@ -7,24 +7,26 @@ require 'trollop'
 
 class Geeklets
 
-  def initialize
-    @geeklet_scripts = {}
-    cwd = File.dirname(__FILE__)
-    children = Pathname.new(cwd).children
-    children.reject! { |child| !child.directory? }
-    children.each do |child_dir|
-      geeklet_name = child_dir.basename.to_s
-      geeklet_file = geeklet_name.downcase
-      begin
-        Kernel.require "#{geeklet_name}/#{geeklet_file}"
-        @geeklet_scripts[geeklet_name] = Kernel.eval("#{geeklet_name}.new")
-      rescue
-        Kernel.puts "Problem loading #{geeklet_name} geeklet."
-        next
+  def initialize(scripts = {})
+    @geeklet_scripts = scripts
+    if @geeklet_scripts.empty?
+      cwd = File.dirname(__FILE__)
+      children = Pathname.new(cwd).children
+      children.reject! { |child| !child.directory? }
+      children.each do |child_dir|
+        geeklet_name = child_dir.basename.to_s
+        geeklet_file = geeklet_name.downcase
+        begin
+          Kernel.require "#{geeklet_name}/#{geeklet_file}"
+          @geeklet_scripts[geeklet_name] = Kernel.eval("#{geeklet_name}.new")
+        rescue
+          Kernel.puts "Problem loading #{geeklet_name} geeklet."
+          next
+        end
       end
     end
   end
-
+  
   def show_usage
     puts "Usage: geeklets <geeklet-script> [relevant-parameters-for-script]"
     puts
@@ -39,7 +41,7 @@ class Geeklets
   end
 
   def run(params)
-    if params.empty?
+    if params.nil? || params.empty?
       show_usage
       show_known_scripts
     else
@@ -47,7 +49,7 @@ class Geeklets
       if @geeklet_scripts.include?(geeklet)
         @geeklet_scripts[geeklet].run(params)
       else
-        puts "I do not know how to run the #{geeklet} geeklet."
+        Kernel.puts "I do not know how to run the #{geeklet} geeklet."
         show_known_scripts
       end
     end
