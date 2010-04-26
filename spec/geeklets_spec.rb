@@ -89,53 +89,111 @@ describe Geeklets do
   it { should respond_to :run }
 end
 
+describe Geeklets do
+    
+    context :initialize, "when there are no scripts" do
+      include GeekletExampleHelperMethods
   
-context Geeklets, "when there are no scripts" do
-  include GeekletExampleHelperMethods
+      before(:each) { @geeklets = mock_no_scripts }
   
-  before(:each) { @geeklets = mock_no_scripts }
-  
-  it "should produce an empty list" do
-    Kernel.should_receive(:puts).with("These are the currently known geeklet scripts:").ordered
-    Kernel.should_receive(:puts).with(no_args()).ordered
-    Kernel.should_receive(:puts).with("There are no defined geeklet scripts.").ordered
-    Kernel.should_receive(:puts).with(no_args()).ordered
+      it "should produce an empty list" do
+        Kernel.should_receive(:puts).with("These are the currently known geeklet scripts:").ordered
+        Kernel.should_receive(:puts).with(no_args()).ordered
+        Kernel.should_receive(:puts).with("There are no defined geeklet scripts.").ordered
+        Kernel.should_receive(:puts).with(no_args()).ordered
 
-    @geeklets.show_known_scripts
-  end
+        @geeklets.show_known_scripts
+      end
+    end
   
+    context :initialize, "when there are scripts with no problems" do
+      include GeekletExampleHelperMethods
+
+      before(:each) { @geeklets = mock_some_scripts_no_problems }
+
+      it "should not produce an empty list" do
+        Kernel.should_receive(:puts).with("These are the currently known geeklet scripts:").ordered
+        Kernel.should_receive(:puts).with(no_args()).ordered
+        Kernel.should_receive(:puts).with("\tDir1.Basename").ordered
+        Kernel.should_receive(:puts).with("\tDir2.Basename").ordered
+        Kernel.should_receive(:puts).with("\tDir3.Basename").ordered
+        Kernel.should_receive(:puts).with(no_args()).ordered
+
+        @geeklets.show_known_scripts
+      end
+    end
+
+    context :initialize, "when there are scripts with problems" do
+      include GeekletExampleHelperMethods
+
+      before(:each) { @geeklets = mock_some_scripts_with_problems }
+
+      it "should skip the scripts with problems and report them" do
+        Kernel.should_receive(:puts).with("These are the currently known geeklet scripts:").ordered
+        Kernel.should_receive(:puts).with(no_args()).ordered
+        Kernel.should_receive(:puts).with("\tDir3.Basename").ordered
+        Kernel.should_receive(:puts).with(no_args()).ordered
+
+        @geeklets.show_known_scripts
+      end
+    end
+
 end
 
-context Geeklets, "when there are scripts with no problems" do
-  include GeekletExampleHelperMethods
+describe Geeklets do
   
-  before(:each) { @geeklets = mock_some_scripts_no_problems }
+  before { @geeklets = Geeklets.new }
+    
+  subject { @geeklets.run }  
+    
+  context "when given no parameters" do
+    
+    it "should show usage and available scripts" do
+      @geeklets.should_receive(:show_usage)
+      @geeklets.should_receive(:show_known_scripts)
+    
+      @geeklets.run(nil)
+    end
   
-  it "should not produce an empty list" do
-    Kernel.should_receive(:puts).with("These are the currently known geeklet scripts:").ordered
-    Kernel.should_receive(:puts).with(no_args()).ordered
-    Kernel.should_receive(:puts).with("\tDir1.Basename").ordered
-    Kernel.should_receive(:puts).with("\tDir2.Basename").ordered
-    Kernel.should_receive(:puts).with("\tDir3.Basename").ordered
-    Kernel.should_receive(:puts).with(no_args()).ordered
-
-    @geeklets.show_known_scripts
   end
-  
-end
 
-context Geeklets, "when there are scripts with problems" do
-  include GeekletExampleHelperMethods
+  context "when given empty parameters" do
+    
+    it "should show usage and available scripts" do
+      @geeklets.should_receive(:show_usage)
+      @geeklets.should_receive(:show_known_scripts)
+    
+      @geeklets.run([])
+    end
   
-  before(:each) { @geeklets = mock_some_scripts_with_problems }
-  
-  it "should skip the scripts with problems and report them" do
-    Kernel.should_receive(:puts).with("These are the currently known geeklet scripts:").ordered
-    Kernel.should_receive(:puts).with(no_args()).ordered
-    Kernel.should_receive(:puts).with("\tDir3.Basename").ordered
-    Kernel.should_receive(:puts).with(no_args()).ordered
-
-    @geeklets.show_known_scripts
   end
+
+  context "when given parmeters for a non existant script" do
+    
+    it "should indicate that it doesn't understand, and show the available scripts" do
+      Kernel.should_receive(:puts).with("I do not know how to run the noscript geeklet.").ordered
+      @geeklets.should_receive(:show_known_scripts)
+    
+      @geeklets.run(["noscript"])
+    end
   
+  end
+
+  context "when given parmeters for an existing script" do
+    
+    before do 
+      @script_hash = mock("script hash") 
+      @script_hash.should_receive(:empty?).and_return(false)
+      @geeklets = Geeklets.new(@script_hash)
+    end
+    
+    it "should attempt to run that script" do
+      @script_hash.should_receive(:include?).with("some_script").and_return(true)
+      @script_hash.should_receive(:[]).with("some_script").and_return(mock_script = mock("some_script"))
+      mock_script.should_receive(:run).with(["some_params"])
+    
+      @geeklets.run(["some_script", "some_params"])
+    end
+  
+  end
 end
