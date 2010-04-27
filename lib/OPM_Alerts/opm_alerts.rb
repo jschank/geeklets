@@ -4,11 +4,8 @@ require 'open-uri'
 require 'nokogiri'
 
 class OPM_Alerts < Geeklet
-
-  def initialize
-    super
-    registerConfiguration(:URL, :default => "http://www.opm.gov/status/index.aspx")
-  end
+  registerConfiguration :OPM_Alerts, :URL, :default => "http://www.opm.gov/status/index.aspx"
+  registerConfiguration :OPM_Alerts, :width, :default => 40
 
   def description
     "Returns U.S. Office of Personnel Management status Alerts."
@@ -17,9 +14,7 @@ class OPM_Alerts < Geeklet
   def run(params)
     super
     
-    width = (params[1] and params[1].to_i) || 40
-
-    doc = Nokogiri::HTML(open(configurableValue(:URL)))
+    doc = Nokogiri::HTML(open(configurableValue(:OPM_Alerts, :URL)))
 
     date_str = doc.css('#_ctl0__ctl0_DisplayDateSpan').text.strip
     begin
@@ -42,6 +37,7 @@ class OPM_Alerts < Geeklet
     status = "Not found" if status.length == 0
 
     # display results
+    width = configurableValue(:OPM_Alerts, :width)
     puts Utility.wrap_text("#{date_str} - #{title}", width, date_str.length + 3, :outdent)
     puts "-" * width
     puts Utility.wrap_text(status, width)

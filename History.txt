@@ -1,4 +1,5 @@
 === 0.0.7
+* moved configuration into a module
 * added basic configuration and tests.
 * added tests for base class.
 * added base class for all Geeklet scripts.

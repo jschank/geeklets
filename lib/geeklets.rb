@@ -20,8 +20,10 @@ class Geeklets
         begin
           Kernel.require "#{geeklet_name}/#{geeklet_file}"
           @geeklet_scripts[geeklet_name] = Kernel.eval("#{geeklet_name}.new")
-        rescue
+        rescue => e
           Kernel.puts "Problem loading #{geeklet_name} geeklet."
+          Kernel.puts e.inspect
+          Kernel.puts e.backtrace
           next
         end
       end

@@ -1,12 +1,8 @@
-require 'unregistered_config_value_error'
-require 'configuration_required_error'
+require 'configurable'
 
 class Geeklet
-
-  def initialize
-    @configuration = {}
-  end
-
+  include Configurable
+  
   def isHelp?(param)
     param.to_s.downcase == 'help'
   end
@@ -29,16 +25,6 @@ class Geeklet
     USAGE: goes here.
 EOS
 )
-  end
-  
-  def configurableValue(key)
-    raise UnregisteredConfigValueError unless @configuration.include?(key)
-    raise ConfigurationRequiredError unless @configuration[key].include?(:default)
-    @configuration[key][:default]
-  end
-  
-  def registerConfiguration(key, options = {})
-    @configuration[key] = options
   end
 
   def run(params)
