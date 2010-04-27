@@ -3,9 +3,6 @@ require 'configurable'
 class Geeklet
   include Configurable
   
-  def isHelp?(param)
-    param.to_s.downcase == 'help'
-  end
   
   def name
     self.class.to_s
@@ -28,7 +25,9 @@ EOS
   end
 
   def run(group, params)
-    if !params.nil? && !params.empty? && isHelp?(params[0])
+    begin
+      add_overrides(group, params)
+    rescue Trollop::HelpNeeded
       showHelp
       Kernel.exit
     end

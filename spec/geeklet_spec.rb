@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'geeklet'
 
 describe Geeklet do
 
@@ -36,19 +37,6 @@ describe Geeklet do
 
   end
   
-  describe :isHelp do
-    
-    it "should return true when param is 'help'" do
-      help = ['Help', 'help', "HeLp"]      
-      help.each { |param| @geeklet.isHelp?(param).should be_true }
-    end
-    
-    it "should be false when the param is not 'help'" do
-      not_help = [2, nil, ""]
-      not_help.each { |param| @geeklet.isHelp?(param).should be_false }
-    end
-    
-  end
   
   
   describe :showHelp do
@@ -71,40 +59,5 @@ EOS
     
   end
   
-  describe :configurableValue do
-
-    context "when group not registered" do      
-      it "should throw an exception" do
-        lambda { @geeklet.configurableValue("no_group", "someUnregisteredKey") }.should raise_exception(UnregisteredConfigValueError)
-      end      
-    end
-    
-    context "when group is registered but configurable value not registered" do      
-      subject { @geeklet.configurableValue("group", "someRegisteredKey") }
-
-      it "should throw an exception" do
-        lambda { @geeklet.configurableValue("group", "someUnregisteredKey") }.should raise_exception(UnregisteredConfigValueError)
-      end      
-    end
-    
-    context "when configurable value is registered" do
-      subject { @geeklet.configurableValue("group", "someRegisteredKey") }
-      
-      context "with a default value" do
-        before { @geeklet.registerConfiguration("group", "someRegisteredKey", :default => "some Default Value") }
-        it { should == "some Default Value"} 
-      end
-
-      context "without a default value" do
-        before { @geeklet.registerConfiguration("group", "someRegisteredKey") }
-        it "should indicate that configuration is necessary" do
-          lambda { @geeklet.configurableValue("group", "someRegisteredKey") }.should raise_exception(ConfigurationRequiredError)
-        end
-      end
-      
-      
-    end
-    
-  end
   
 end
