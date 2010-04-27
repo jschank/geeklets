@@ -1,6 +1,5 @@
+TODO: registering a config value, enforce the minimum settings. (i.e. :type is required)
 TODO: each script should have its own version info
-TODO: create configuration mechanism, so scripts can get their properties.
-TODO: configuration can be overridden by command line parameters
 TODO: configuration values can be viewed and edited in a GUI (use FX Ruby)
 TODO: There needs to be a logging mechanism so that script errors can be reported other than on STDOUT - which would interfere with geektool outputs
 TODO: There needs to be a script to dump logging messages - to be used by geektool
