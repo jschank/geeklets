@@ -5,7 +5,7 @@ require 'nokogiri'
 
 class OPM_Alerts < Geeklet
   registerConfiguration :OPM_Alerts, :URL, :default => "http://www.opm.gov/status/index.aspx", :description => "OPM website URL", :type => :string
-  registerConfiguration :OPM_Alerts, :width, :default => 40, :description => "Word wrap width", :type => :int
+  registerConfiguration :OPM_Alerts, :width, :default => 40, :description => "Word wrap width", :type => :int, :short => "-w"
 
   def description
     "Returns U.S. Office of Personnel Management status Alerts."

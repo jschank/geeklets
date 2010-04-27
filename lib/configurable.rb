@@ -1,6 +1,7 @@
 require 'unregistered_config_value_error'
 require 'configuration_required_error'
 require 'trollop'
+require 'yaml'
 
 module Configurable
   
@@ -36,13 +37,19 @@ module Configurable
     parser = Trollop::Parser.new do
       groupConfigs.each do |key, options|
         # our concept of a default is different from trollop's, so remove any default key and value
-        opt key, options[:description], options.delete_if { |k, v| k == :default }
+        opt key, options[:description], options.reject { |k, v| k == :default }
       end
     end
     trollop_opts = parser.parse(params)
     trollop_opts.each do |key, value| 
       groupConfigs[key][:override] = value if groupConfigs.key?(key) 
     end
+    
+    # puts "trollop opts:"
+    # puts trollop_opts.to_yaml
+    # puts
+    # puts "group configs:"
+    # puts groupConfigs.to_yaml
   end
 
   def self.included(base)

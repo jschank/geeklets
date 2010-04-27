@@ -27,8 +27,9 @@ EOS
   def run(group, params)
     begin
       add_overrides(group, params)
-    rescue Trollop::HelpNeeded
+    rescue => e
       showHelp
+      # Kernel.puts e.inspect
       Kernel.exit
     end
     true
