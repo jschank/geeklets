@@ -12,7 +12,7 @@ class OPM_Alerts < Geeklet
   end
 
   def run(params)
-    super
+    super(:OPM_Alerts, params)
     
     doc = Nokogiri::HTML(open(configurableValue(:OPM_Alerts, :URL)))
 

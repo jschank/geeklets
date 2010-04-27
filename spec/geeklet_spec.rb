@@ -11,17 +11,17 @@ describe Geeklet do
   describe :run do
 
     context "When params is nil" do      
-      subject { @geeklet.run(nil)}
+      subject { @geeklet.run("group", nil)}
       it { should be_true }      
     end
 
     context "When params is empty" do      
-      subject { @geeklet.run([])}
+      subject { @geeklet.run("group", [])}
       it { should be_true }      
     end
 
     context "When params has items" do
-      subject { @geeklet.run(["one", 2, "three"])}      
+      subject { @geeklet.run("group", ["one", 2, "three"])}      
       it { should be_true }      
     end
     
@@ -30,7 +30,7 @@ describe Geeklet do
         @geeklet.should_receive(:showHelp)
         Kernel.should_receive(:exit)
         
-        @geeklet.run(["Help", 2, "4.5"])
+        @geeklet.run("group", ["Help", 2, "4.5"])
       end
     end
 
@@ -72,25 +72,33 @@ EOS
   end
   
   describe :configurableValue do
-    
-    context "when configurable value not registered" do      
+
+    context "when group not registered" do      
       it "should throw an exception" do
-        lambda { @geeklet.configurableValue("someUnregisteredKey") }.should raise_exception(UnregisteredConfigValueError)
+        lambda { @geeklet.configurableValue("no_group", "someUnregisteredKey") }.should raise_exception(UnregisteredConfigValueError)
+      end      
+    end
+    
+    context "when group is registered but configurable value not registered" do      
+      subject { @geeklet.configurableValue("group", "someRegisteredKey") }
+
+      it "should throw an exception" do
+        lambda { @geeklet.configurableValue("group", "someUnregisteredKey") }.should raise_exception(UnregisteredConfigValueError)
       end      
     end
     
     context "when configurable value is registered" do
-      subject { @geeklet.configurableValue("someRegisteredKey") }
+      subject { @geeklet.configurableValue("group", "someRegisteredKey") }
       
       context "with a default value" do
-        before { @geeklet.registerConfiguration("someRegisteredKey", :default => "some Default Value") }
+        before { @geeklet.registerConfiguration("group", "someRegisteredKey", :default => "some Default Value") }
         it { should == "some Default Value"} 
       end
 
       context "without a default value" do
-        before { @geeklet.registerConfiguration("someRegisteredKey") }
+        before { @geeklet.registerConfiguration("group", "someRegisteredKey") }
         it "should indicate that configuration is necessary" do
-          lambda { @geeklet.configurableValue("someRegisteredKey") }.should raise_exception(ConfigurationRequiredError)
+          lambda { @geeklet.configurableValue("group", "someRegisteredKey") }.should raise_exception(ConfigurationRequiredError)
         end
       end
       

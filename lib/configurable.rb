@@ -19,6 +19,10 @@ module Configurable
     configurations[group] ||= {}
     configurations[group][key] = options
   end
+  
+  def trollop_options(group)
+    # use configurations to produce trollop options.
+  end
 
   def self.included(base)
     base.extend(Configurable)

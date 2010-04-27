@@ -22,8 +22,8 @@ class Geeklets
           @geeklet_scripts[geeklet_name] = Kernel.eval("#{geeklet_name}.new")
         rescue => e
           Kernel.puts "Problem loading #{geeklet_name} geeklet."
-          Kernel.puts e.inspect
-          Kernel.puts e.backtrace
+          # Kernel.puts e.inspect
+          # Kernel.puts e.backtrace
           next
         end
       end

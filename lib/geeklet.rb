@@ -8,7 +8,7 @@ class Geeklet
   end
   
   def name
-    self.class
+    self.class.to_s
   end
   
   def description
@@ -27,7 +27,7 @@ EOS
 )
   end
 
-  def run(params)
+  def run(group, params)
     if !params.nil? && !params.empty? && isHelp?(params[0])
       showHelp
       Kernel.exit
