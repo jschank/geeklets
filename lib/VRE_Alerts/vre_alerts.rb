@@ -3,39 +3,25 @@ require 'rubygems'
 require 'chronic'
 require 'mechanize'
 
-class VRE_Alerts
-  FEED_URL = "http://www.vre.org/service/daily-download.html"
-  TRAIN_LINES = {"fbg_delay" => :fredericksburg, "mss_delay" => :manassas}
-
-  def die
-    puts <<-EOS
-    vre-alert
-
-    USAGE:
-
-    \tvre-alert [rail_lines] [wrapping-width] [specific-date]
-
-    Returns Virgina Railway Express (VRE) Alerts.
-
-    [rail_lines] specifies which rail lines you want alerts for.
-    Can be:
-    \tfredericsburg - for the Fredericsburg line
-    \tmanassas      - for the Manassas line
-    \tboth          - for both lines.
-    Defaults to: both
+class VRE_Alerts < Geeklet
+  registerConfiguration :VRE_Alerts, :URL, :default => "http://www.vre.org/service/daily-download.html", :description => "VRE website URL", :type => :string
+  registerConfiguration :VRE_Alerts, :lines, :default => "both", :description => "Which rail line. (manassas, fredericksburg, or both)", :type => :string
+  registerConfiguration :VRE_Alerts, :width, :default => 40, :description => "Wrapping width", :type => :int
+  registerConfiguration :VRE_Alerts, :date, :default => "today", :description => "A string parseable by Date::parse which is the date from the VRE daily download to display. NOTE: this does not access history, it only allows you to choose a specific entry from the Daily Download to render.", :type => :string
   
-    [wrapping-width] is an integer to limit the width of the descriptions
-    Defaults to: 40
+  def name
+    "VRE_Alerts"
+  end
   
-    [specific-date] is a string parseable by Date::parse which is the date from
-    the VRE daily download to display. NOTE: this does not access history, it only
-    allows you to choose a specific entry from the Daily Download to render. Mostly
-    used for debugging.
-    Defaults to: The current system Date.
-
-  EOS
-
-    exit
+  def description
+    "Returns Virgina Railway Express (VRE) Alerts."
+  end
+  
+  def line(cell_class)
+    case cell_class
+    when "fbg_delay" then :fredericksburg
+    when "mss_delay" then :manassas
+    end
   end
 
   # >> notice.search("tr")[2].search("td")[0].attributes["class"].value
@@ -67,7 +53,8 @@ class VRE_Alerts
         end
       
         cell_class = cells[0].attributes["class"].value unless cells[0].text.empty?
-        detail[service] << {:line => TRAIN_LINES[cell_class], :train => cells[0].text, :description => cells[1].text} if @rail_lines == :both || @rail_lines == TRAIN_LINES[cell_class]
+        rail_lines = configurableValue(:VRE_Alerts, :lines).to_sym
+        detail[service] << {:line => line(cell_class), :train => cells[0].text, :description => cells[1].text} if rail_lines == :both || rail_lines == line(cell_class)
       else
         next
       end
@@ -99,23 +86,17 @@ class VRE_Alerts
   end
 
   def run(params)
-    die if params[0] == "-h"
-
-    @rail_lines = (params[0] || "both").to_sym
-    width = (params[1] and params[1].to_i) || 40
-    alert_date = (params[2] and Date.parse(params[2])) || Date.today
-
-    #debug - set a date of interest, and rail line of interest
-    # alert_date = Date.civil(2010, 1, 13)
-    # @rail_lines = :fredericksburg
+    super(:VRE_Alerts, params)
 
     agent = Mechanize.new
-    agent.get(FEED_URL)
+    agent.get(configurableValue(:VRE_Alerts, :URL))
     notices = agent.page.search(".format").map{ |notice| parse_notice(notice) }
 
     #debug
     #puts notices.to_yaml
 
+    width = configurableValue(:VRE_Alerts, :width)
+    alert_date = configurableValue(:VRE_Alerts, :date)
     render_notice(notices.select{ |notice| notice[:date] == alert_date }.shift, width)
   end
 
