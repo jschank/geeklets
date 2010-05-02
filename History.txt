@@ -1,4 +1,9 @@
 === 0.0.7
+* updated WMATA_Alerts to use configurable values
+* updated VRE_Alerts to use configurable values
+* updated OPM_Alerts to use configurable values
+* show_help fixed for some scripts
+* show_help shows defaulted params and options
 * added command line overrides of configuration values
 * moved configuration into a module
 * added basic configuration and tests.
