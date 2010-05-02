@@ -4,6 +4,7 @@ $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname
 require 'pathname'
 require 'utility'
 require 'geeklet'
+require 'yaml'
 
 class Geeklets
 
