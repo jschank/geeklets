@@ -12,23 +12,24 @@ class Geeklet
     "No description specified for this geeklet."
   end
 
-  def showHelp
-    Kernel.puts( 
+  def show_help(group)
+    parser = command_parser(group)
+    Kernel.puts(
 <<-EOS
-    Geeklet: #{name}
+Geeklet: #{name}
 
-    description: #{description}
+Description: #{description}
 
-    USAGE: goes here.
 EOS
 )
+    parser.educate 
   end
 
   def run(group, params)
     begin
       add_overrides(group, params)
     rescue => e
-      showHelp
+      show_help(group)
       # Kernel.puts e.inspect
       Kernel.exit
     end

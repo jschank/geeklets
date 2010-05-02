@@ -26,21 +26,30 @@ module Configurable
     configurations[group] ||= {}
     configurations[group][key] = options
   end
-  
-  def add_overrides(group, params)
-    return if (params.nil? || params.empty?) # nothing to do in this case
-    raise Trollop::HelpNeeded if isHelp?(params[0])
-
+    
+  def command_parser(group)
     groupConfigs = configurations[group]
     return unless groupConfigs #if there are no configs defined, there is nothing to do.
     
     parser = Trollop::Parser.new do
       groupConfigs.each do |key, options|
         # our concept of a default is different from trollop's, so remove any default key and value
-        opt key, options[:description], options.reject { |k, v| k == :default }
+        defaultValue = options[:stored] || options[:default]
+        if defaultValue
+          opt key, options[:description], options.merge({ :default => defaultValue })
+        else
+          opt key, options[:description], options
+        end
       end
     end
-    trollop_opts = parser.parse(params)
+  end  
+  
+  def add_overrides(group, params)
+    return if (params.nil? || params.empty?) # nothing to do in this case
+    raise Trollop::HelpNeeded if isHelp?(params[0])
+
+    groupConfigs = configurations[group]
+    trollop_opts = command_parser(group).parse(params)
     trollop_opts.each do |key, value| 
       groupConfigs[key][:override] = value if groupConfigs.key?(key) 
     end

@@ -28,7 +28,7 @@ describe Geeklet do
     
     context "When params has 'help' as first item" do
       it "should show help and exit" do
-        @geeklet.should_receive(:showHelp)
+        @geeklet.should_receive(:show_help)
         Kernel.should_receive(:exit)
         
         @geeklet.run("group", ["Help", 2, "4.5"])
@@ -39,22 +39,24 @@ describe Geeklet do
   
   
   
-  describe :showHelp do
+  describe :show_help do
     
     it "should display usage information" do
+      parser = mock("command_parser")
+      @geeklet.should_receive(:command_parser).with("group").and_return(parser)
       @geeklet.should_receive(:name).and_return("Script Name")
       @geeklet.should_receive(:description).and_return("Some script description")
       Kernel.should_receive(:puts).with(
 <<-EOS
-    Geeklet: Script Name
+Geeklet: Script Name
 
-    description: Some script description
+Description: Some script description
 
-    USAGE: goes here.
 EOS
 )      
+      parser.should_receive(:educate)
 
-      @geeklet.showHelp
+      @geeklet.show_help("group")
     end
     
   end
